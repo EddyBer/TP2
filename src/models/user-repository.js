@@ -49,4 +49,17 @@ exports.deleteUser = (id) => {
   }
 
   users.splice(userIndex, 1);
-}
+};
+
+exports.login = (data) => {
+    console.log(data)
+    const userIndex = users.findIndex((user) => user.firstName == data.login)
+
+    if (userIndex === -1) {
+        throw new Error('User not foud');
+    }
+
+    if (!bcrypt.compareSync(data.password, users[userIndex].password)) {
+        throw new Error('Password or login incorrect')
+    }
+};

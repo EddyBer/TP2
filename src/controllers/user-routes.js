@@ -21,6 +21,11 @@ router.post('/', (req, res) => {
   res.status(201).end();
 });
 
+router.post('/login', (req,res) => {
+    userRepository.login(req.body)
+    res.status(201).end();
+})
+
 router.put('/:id', (req, res) => {
   userRepository.updateUser(req.params.id, req.body);
   res.status(204).end();
