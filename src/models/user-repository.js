@@ -1,6 +1,8 @@
 const { users } = require('./db');
 const md5 = require('md5');
 const uuid = require('uuid');
+const bcrypt = require('bcryptjs')
+const salt = bcrypt.genSaltSync(12)
 
 exports.getUsers = () => {
   return users;
@@ -21,7 +23,7 @@ exports.createUser = (data) => {
     id: uuid.v4(),
     firstName: data.firstName,
     lastName: data.lastName,
-    password: md5(data.password),
+    password: bcrypt.hashSync(data.password,salt),
   };
 
   users.push(user);
