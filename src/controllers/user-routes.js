@@ -22,8 +22,14 @@ router.post('/', (req, res) => {
 });
 
 router.post('/login', (req,res) => {
-    userRepository.login(req.body)
-    res.status(201).end();
+    const connection = userRepository.login(req.body)
+
+    if (!connection) {
+        res.status(401).end(); 
+    }
+
+    res.status(200).end()
+    
 })
 
 router.put('/:id', (req, res) => {
