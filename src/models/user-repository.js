@@ -27,6 +27,12 @@ exports.createUser = (data) => {
     roles : data.roles ? data.roles : ["MEMBER"]
   };
 
+  const foundUser = users.find((user) => user.firstName == data.firstName);
+
+  if (foundUser) {
+    throw new Error('User already exist');
+  }
+
   users.push(user);
 };
 
