@@ -1,6 +1,7 @@
 const express = require('express');
 const { DateTime } = require('luxon');
 const cors = require('cors');
+const jwtToken =  require('jsonwebtoken')
 
 const initJsonHandlerMiddlware = (app) => app.use(express.json());
 
@@ -35,4 +36,16 @@ exports.initializeErrorMiddlwares = (app) => {
   app.use((err, req, res, next) => {
     res.status(500).send(err.message);
   });
+}
+
+exports.VerifyToken = async (req,res,next) => {
+    const token = req.headers['authorization']
+    
+    const check = await jwtToken.verify(token,"secret")
+
+    if (!check) {
+        res.status(401).send()
+    }
+
+    next()
 }

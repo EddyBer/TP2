@@ -24,6 +24,7 @@ exports.createUser = (data) => {
     firstName: data.firstName,
     lastName: data.lastName,
     password: bcrypt.hashSync(data.password,salt),
+    roles : data.roles ? data.roles : ["MEMBER"]
   };
 
   users.push(user);
@@ -37,8 +38,8 @@ exports.updateUser = (id, data) => {
   }
 
   foundUser.firstName = data.firstName || foundUser.firstName;
-  foundUser.lastName = data.lastName || foundUser.lastName;
-  foundUser.password = data.password ? md5(data.password) : foundUser.password;
+  foundUser.lastName  = data.lastName || foundUser.lastName;
+  foundUser.password  = data.password ? md5(data.password) : foundUser.password;
 };
 
 exports.deleteUser = (id) => {

@@ -1,6 +1,10 @@
 const express = require('express');
+const jwt = require('jsonwebtoken')
+const env = require("dotenv").config()
 const router = express.Router();
 const userRepository = require('../models/user-repository');
+const middlewares = require('../core/middlewares');
+const { verify } = require('jsonwebtoken');
 
 router.get('/', (req, res) => {
   res.send(userRepository.getUsers())
@@ -28,8 +32,21 @@ router.post('/login', (req,res) => {
         res.status(401).end(); 
     }
 
+    const {firstName, password} = req.body
+
+    const token = jwt.sign(
+        {user : firstName}, process.env.TOKEN_KEY,
+        {
+            expiresIn : "1h"
+        }
+    )
+
+    res.status(200).json(token)
+    return res
+})
+
+router.get('/logged/test',middlewares.VerifyToken , (req,res) => {
     res.status(200).end()
-    
 })
 
 router.put('/:id', (req, res) => {
