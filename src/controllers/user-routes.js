@@ -45,16 +45,16 @@ router.post('/login', (req,res) => {
     return res
 })
 
-router.get('/logged/test',middlewares.VerifyToken , (req,res) => {
+router.get('/logged/test', middlewares.VerifyToken, (req,res) => {
     res.status(200).end()
 })
 
-router.put('/:id', (req, res) => {
+router.put('/:id', middlewares.VerifyToken, (req, res) => {
   userRepository.updateUser(req.params.id, req.body);
   res.status(204).end();
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', middlewares.VerifyToken, (req, res) => {
   userRepository.deleteUser(req.params.id);
   res.status(204).end();
 });
